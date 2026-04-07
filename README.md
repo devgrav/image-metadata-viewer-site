@@ -5,9 +5,11 @@ Static site for the **Image Metadata Viewer** Chrome extension (main app repo: `
 - **`/`** — landing page with a Chrome Web Store call-to-action.
 - **`/welcome`** — onboarding page (same URL on Vercel; locally use `npm run build` and `npm run preview` so rewrites from `serve.json` apply).
 
-## Version
+## Version and releases
 
-The build injects the version into `data-welcome-version` on the footer (no visible text in the UI). The source of truth is `"version"` in [`package.json`](package.json). Bump it when you align with an extension release.
+The build injects the version into `data-welcome-version` on the footer (no visible text in the UI). The source of truth is `"version"` in [`package.json`](package.json).
+
+**Before merging into `master`** from a branch that changes the site, bump **`version`** in [`package.json`](package.json), then add a **git tag** for that release (for example `v1.2.3` matching the semver in `package.json`). That keeps deploys and extension releases aligned and traceable.
 
 Run **`npm run build`** before deploy; the script replaces `__SITE_VERSION__` in [`index.html`](index.html) and [`welcome.html`](welcome.html) and writes output to **`dist/`** (including `serve.json` for local preview).
 
@@ -24,5 +26,3 @@ npm run preview
 ## Vercel
 
 [`vercel.json`](vercel.json): install `npm ci`, build `npm run build`, output **`dist`**. Root directory = repository root. **`/welcome`** rewrites to **`welcome.html`**.
-
-`ignoreCommand` skips a deployment when the latest commit touches none of: `index.html`, `welcome.html`, `styles.css`, `assets/`, `package.json`, `scripts/`, `serve.json`, `vercel.json`, `package-lock.json`.
