@@ -7,5 +7,5 @@
     { "source": "/welcome", "destination": "/welcome.html" },
     { "source": "/welcome/", "destination": "/welcome.html" }
   ],
-  "ignoreCommand": "sh -c \"if git rev-parse --verify HEAD^ >/dev/null 2>&1; then git diff --quiet HEAD^ HEAD -- index.html welcome.html styles.css assets package.json serve.json vercel.json package-lock.json; else exit 1; fi\""
+  "ignoreCommand": "sh -c \"if git rev-parse --verify HEAD^ >/dev/null 2>&1; then git diff --quiet HEAD^ HEAD -- index.html welcome.html styles.css assets package.json scripts serve.json vercel.json package-lock.json; else exit 1; fi\""
 }
