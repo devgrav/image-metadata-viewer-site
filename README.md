@@ -1,28 +1,28 @@
 # image-metadata-viewer-site
 
-Static welcome / onboarding page for the **Image Metadata Viewer** Chrome extension (main app repo: `image-metadata-viewer`).
+Static site for the **Image Metadata Viewer** Chrome extension (main app repo: `image-metadata-viewer`).
+
+- **`/`** — landing page with a Chrome Web Store call-to-action.
+- **`/welcome`** — onboarding page (same URL on Vercel; locally use `npm run build` and `npm run preview` so rewrites from `serve.json` apply).
 
 ## Version
 
-The deployed page exposes the build version in `data-welcome-version` on the footer node (not shown in the UI). The source of truth is `"version"` in [`package.json`](package.json). Bump it when you align with an extension release.
+The build injects the version into `data-welcome-version` on the footer (no visible text in the UI). The source of truth is `"version"` in [`package.json`](package.json). Bump it when you align with an extension release.
 
-Run **`npm run build`** before deploy; the script replaces the `__SITE_VERSION__` placeholder in the root [`index.html`](index.html) and writes output to **`dist/`**.
+Run **`npm run build`** before deploy; the script replaces `__SITE_VERSION__` in [`index.html`](index.html) and [`welcome.html`](welcome.html) and writes output to **`dist/`** (including `serve.json` for local preview).
 
 ## Commands
 
 ```bash
 npm ci
 npm run build
+npm run preview
 ```
 
-Preview the built site locally by opening `dist/index.html` or serving the `dist/` folder.
+`preview` serves **`dist/`** on **http://localhost:4100** (port is set in [`package.json`](package.json) `preview` script; use this instead of opening `dist/index.html` directly if you need paths like `/welcome`).
 
 ## Vercel
 
-[`vercel.json`](vercel.json): install `npm ci`, build `npm run build`, output **`dist`**. Root directory = repository root.
+[`vercel.json`](vercel.json): install `npm ci`, build `npm run build`, output **`dist`**. Root directory = repository root. **`/welcome`** rewrites to **`welcome.html`**.
 
-`ignoreCommand` skips a deployment when the latest commit touches none of: `index.html`, `styles.css`, `assets/`, `package.json`, `scripts/`, `vercel.json`, `package-lock.json`.
-
-## Assets
-
-Add onboarding screenshots as `assets/Browser_Welcome_1.png` and `assets/Browser_Welcome_2.png` if they are not present (referenced from `index.html`). Optional: `favicon.png` in the repo root is copied into `dist/` when present.
+`ignoreCommand` skips a deployment when the latest commit touches none of: `index.html`, `welcome.html`, `styles.css`, `assets/`, `package.json`, `scripts/`, `serve.json`, `vercel.json`, `package-lock.json`.

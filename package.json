@@ -5,6 +5,10 @@
   "type": "module",
   "scripts": {
     "build": "node scripts/build-site.mjs",
-    "build:site": "node scripts/build-site.mjs"
+    "build:site": "node scripts/build-site.mjs",
+    "preview": "serve dist -l 4100"
+  },
+  "devDependencies": {
+    "serve": "^14.2.6"
   }
 }
