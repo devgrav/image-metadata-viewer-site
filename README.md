@@ -11,8 +11,7 @@ The build injects the version into `data-welcome-version` on the footer (no visi
 
 **Before merging into `master`** from a branch that changes the site, bump **`version`** in [`package.json`](package.json), then add a **git tag** for that release (for example `v1.2.3` matching the semver in `package.json`). That keeps deploys and extension releases aligned and traceable.
 
-Run **`npm run build`** before deploy; the script replaces `__SITE_VERSION__` in [`index.html`](index.html) and [`welcome.html`](welcome.html) and writes output to **`dist/`** (including `serve.json` for local preview).
-Run **`npm run build`** before deploy; the script replaces `__SITE_VERSION__` in [`index.html`](index.html) and [`welcome.html`](welcome.html) and writes output to **`dist/`**.
+Run **`npm run build`** before deploy; the script replaces `__SITE_VERSION__` in [`index.html`](index.html) and [`welcome/index.html`](welcome/index.html) and writes output to **`dist/`**.
 
 ## Commands
 
@@ -27,3 +26,7 @@ npm run preview
 ## GitHub Pages
 
 The site is deployed from **`dist/`** via GitHub Actions.
+
+## Static assets
+
+Static files are kept in **`public/`** (for example `public/assets/` and `public/styles.css`) and copied as-is into **`dist/`** during `npm run build`.

@@ -1,9 +1,9 @@
 /**
  * Injects package.json "version" into HTML data-welcome-version (__SITE_VERSION__).
- * Writes static output to dist/ (templates at repo root).
+ * Writes static output to dist/ (index + welcome route).
  */
 import { cpSync, existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
-import { basename, dirname, join } from 'node:path'
+import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
@@ -19,43 +19,25 @@ if (typeof version !== 'string' || !version.trim()) {
 }
 
 const marker = '__SITE_VERSION__'
-const templates = ['index.html', 'welcome.html']
+const versionText = version.trim()
 
-mkdirSync(dist, { recursive: true })
-
-for (const name of templates) {
-  const templatePath = join(root, name)
+function writeHtml(templateRelPath, outRelPath) {
+  const templatePath = join(root, templateRelPath)
   let html = readFileSync(templatePath, 'utf8')
   if (!html.includes(marker)) {
     console.error(`build-site: ${templatePath} must contain placeholder "${marker}".`)
     process.exit(1)
   }
-  html = html.replaceAll(marker, version.trim())
-  writeFileSync(join(dist, basename(name)), html, 'utf8')
+  html = html.replaceAll(marker, versionText)
+  const outFile = join(dist, outRelPath)
+  mkdirSync(dirname(outFile), { recursive: true })
+  writeFileSync(outFile, html, 'utf8')
 }
 
-// GitHub Pages doesn't support Vercel-style rewrites, so we also publish
-// /welcome/ as dist/welcome/index.html.
-const welcomeOutDir = join(dist, 'welcome')
-mkdirSync(welcomeOutDir, { recursive: true })
-const welcomeHtml = readFileSync(join(root, 'welcome.html'), 'utf8')
-  .replaceAll(marker, version.trim())
-  // welcome/index.html is nested one level deep, so static paths must go up a level.
-  .replaceAll('href="styles.css"', 'href="../styles.css"')
-  .replaceAll('href="favicon.png"', 'href="../favicon.png"')
-  .replaceAll('src="assets/', 'src="../assets/')
-  .replaceAll('href="assets/', 'href="../assets/')
-writeFileSync(join(welcomeOutDir, 'index.html'), welcomeHtml, 'utf8')
+mkdirSync(dist, { recursive: true })
+writeHtml('index.html', 'index.html')
+writeHtml(join('welcome', 'index.html'), join('welcome', 'index.html'))
 
-cpSync(join(root, 'styles.css'), join(dist, 'styles.css'))
-cpSync(join(root, 'assets'), join(dist, 'assets'), { recursive: true })
-const serveConfig = join(root, 'serve.json')
-if (existsSync(serveConfig)) {
-  cpSync(serveConfig, join(dist, 'serve.json'))
-}
-const favicon = join(root, 'favicon.png')
-if (existsSync(favicon)) {
-  cpSync(favicon, join(dist, 'favicon.png'))
-}
+cpSync(join(root, 'public'), dist, { recursive: true })
 
 console.log(`build-site: wrote version ${version} into dist/*.html (data-welcome-version).`)
