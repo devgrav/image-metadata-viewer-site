@@ -34,6 +34,19 @@ for (const name of templates) {
   writeFileSync(join(dist, basename(name)), html, 'utf8')
 }
 
+// GitHub Pages doesn't support Vercel-style rewrites, so we also publish
+// /welcome/ as dist/welcome/index.html.
+const welcomeOutDir = join(dist, 'welcome')
+mkdirSync(welcomeOutDir, { recursive: true })
+const welcomeHtml = readFileSync(join(root, 'welcome.html'), 'utf8')
+  .replaceAll(marker, version.trim())
+  // welcome/index.html is nested one level deep, so static paths must go up a level.
+  .replaceAll('href="styles.css"', 'href="../styles.css"')
+  .replaceAll('href="favicon.png"', 'href="../favicon.png"')
+  .replaceAll('src="assets/', 'src="../assets/')
+  .replaceAll('href="assets/', 'href="../assets/')
+writeFileSync(join(welcomeOutDir, 'index.html'), welcomeHtml, 'utf8')
+
 cpSync(join(root, 'styles.css'), join(dist, 'styles.css'))
 cpSync(join(root, 'assets'), join(dist, 'assets'), { recursive: true })
 const serveConfig = join(root, 'serve.json')
