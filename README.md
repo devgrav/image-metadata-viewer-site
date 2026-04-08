@@ -9,7 +9,27 @@ Static site for the **Image Metadata Viewer** Chrome extension (main app repo: `
 
 The build injects the version into `data-welcome-version` on the footer (no visible text in the UI). The source of truth is `"version"` in [`package.json`](package.json).
 
-**Before merging into `master`** from a branch that changes the site, bump **`version`** in [`package.json`](package.json), then add a **git tag** for that release (for example `v1.2.3` matching the semver in `package.json`). That keeps deploys and extension releases aligned and traceable.
+## Workflow
+
+- **Feature work**: branch from `master` using `feature/<name>`, open a PR back into `master`.
+- **Hotfixes**: branch from `master` using `hotfix/<name>`, merge back into `master`, then release immediately.
+
+## Releases
+
+- **Version source of truth**: `"version"` in [`package.json`](package.json) (e.g. `1.2.3`)
+- **Release tag**: `vX.Y.Z` must match `package.json` (e.g. `v1.2.3`)
+
+Release steps (from `master`):
+
+```bash
+git tag vX.Y.Z
+git push origin vX.Y.Z
+```
+
+Pushing the tag triggers GitHub Actions to:
+- create a **GitHub Release**
+- build the site into `dist/`
+- deploy to **GitHub Pages**
 
 Run **`npm run build`** before deploy; the script replaces `__SITE_VERSION__` in [`index.html`](index.html) and [`welcome/index.html`](welcome/index.html) and writes output to **`dist/`**.
 
