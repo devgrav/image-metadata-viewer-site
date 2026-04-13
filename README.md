@@ -11,8 +11,8 @@ The build injects the version into `data-welcome-version` on the footer (no visi
 
 ## Workflow
 
-- **Feature work**: branch from `master` using `feature/<name>`, open a PR back into `master`.
-- **Hotfixes**: branch from `master` using `hotfix/<name>`, merge back into `master`, then release immediately.
+- **Feature work**: branch from `master` using `feature/<name>`, merge back into `master` (no GitHub PR required).
+- **Hotfixes**: branch from `master` using `hotfix/<name>`, merge back into `master` (no GitHub PR required), then release immediately.
 
 ## Releases
 
