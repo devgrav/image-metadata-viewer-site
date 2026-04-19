@@ -1,6 +1,6 @@
 /**
  * Injects package.json "version" into HTML data-welcome-version (__SITE_VERSION__).
- * Writes static output to dist/ (index + welcome route).
+ * Writes static output to dist/ (index, welcome, rate, delete + public assets).
  */
 import { cpSync, existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
@@ -37,7 +37,8 @@ function writeHtml(templateRelPath, outRelPath) {
 mkdirSync(dist, { recursive: true })
 writeHtml('index.html', 'index.html')
 writeHtml(join('welcome', 'index.html'), join('welcome', 'index.html'))
-
+writeHtml(join('rate', 'index.html'), join('rate', 'index.html'))
+writeHtml(join('delete', 'index.html'), join('delete', 'index.html'))
 cpSync(join(root, 'public'), dist, { recursive: true })
 
 console.log(`build-site: wrote version ${version} into dist/*.html (data-welcome-version).`)
