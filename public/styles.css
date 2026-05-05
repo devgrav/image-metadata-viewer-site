@@ -124,6 +124,15 @@ body {
   padding: clamp(2rem, 5vw, 3.5rem) clamp(1.25rem, 4vw, 2rem) 3.5rem;
 }
 
+.main--landing {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Avoid accidental overflow + scrollbar on short viewports */
+  padding-top: clamp(1.25rem, 4vw, 2rem);
+  padding-bottom: clamp(1.25rem, 4vw, 2rem);
+}
+
 .hero {
   margin-bottom: 2rem;
   text-align: center;
@@ -145,6 +154,11 @@ body {
   gap: clamp(1.5rem, 4vw, 2.25rem);
   min-height: min(52vh, 28rem);
   padding: clamp(1rem, 3vw, 2rem) 0;
+}
+
+.hero--landing .store-btn {
+  align-self: center;
+  width: fit-content;
 }
 
 .store-btn {
