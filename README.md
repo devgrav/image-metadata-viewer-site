@@ -4,6 +4,8 @@ Static site for the **Image Metadata Viewer** Chrome extension (main app repo: `
 
 - **`/`** — landing page with a Chrome Web Store call-to-action.
 - **`/welcome/`** — onboarding page (served as a real folder so it works on GitHub Pages without rewrites).
+- **`/rate/`** — feedback page (embedded Google Form).
+- **`/delete/`** — data deletion request page (embedded Google Form).
 
 ## Version and releases
 
@@ -32,6 +34,7 @@ Pushing the tag triggers GitHub Actions to:
 - deploy to **GitHub Pages**
 
 Run **`npm run build`** before deploy; the script replaces `__SITE_VERSION__` in [`index.html`](index.html) and [`welcome/index.html`](welcome/index.html) and writes output to **`dist/`**.
+The build also generates the `/rate/` and `/delete/` folders under **`dist/`**.
 
 ## Commands
 
